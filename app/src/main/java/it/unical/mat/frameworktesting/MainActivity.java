@@ -79,7 +79,9 @@ public class MainActivity extends AppCompatActivity implements Callback{
 
     public void onClick(final View view){
 
-        handler.addProgram(new InputProgram(getResourceToString("sudoku")));
+        String sudokuEncoding = getResourceToString("sudoku");
+
+        handler.addProgram(new InputProgram(sudokuEncoding));
         InputProgram inputProgram=new InputProgram();
         for ( int i = 0; i < N; i++)
             for ( int j = 0; j < M; j++)
