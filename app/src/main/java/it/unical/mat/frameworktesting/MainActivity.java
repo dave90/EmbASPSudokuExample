@@ -19,7 +19,7 @@ import it.unical.mat.embasp.base.Output;
 import it.unical.mat.embasp.platforms.android.AndroidHandler;
 import it.unical.mat.embasp.specializations.dlv.android.DLVAndroidService;
 
-public class MainActivity extends AppCompatActivity implements Callback{
+public class MainActivity extends AppCompatActivity {
 
     public final int N=9;
     private Handler handler;
@@ -33,6 +33,26 @@ public class MainActivity extends AppCompatActivity implements Callback{
                                         {3,0,0,0,0,0,0,1,0},
                                         {0,4,1,0,0,0,0,0,7},
                                         {0,0,7,0,0,0,3,0,0}};
+
+    private class MyCallback implements Callback {
+        @Override
+        public void callback(Output o) {
+            if(!(o instanceof AnswerSets))return;
+            AnswerSets answerSets=(AnswerSets)o;
+            if(answerSets.getAnswersets().size()==0)return;
+            AnswerSet as = answerSets.getAnswersets().get(0);
+            try {
+                for(Object obj:as.getAtoms()) {
+                    Cell cell = (Cell) obj;
+                    sudokuMatrix[cell.getRow()][cell.getColumn()]=cell.getValue();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            printSudokuMatrix();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,28 +96,11 @@ public class MainActivity extends AppCompatActivity implements Callback{
         String sudokuEncoding = getEncodingFromResources();
         handler.addProgram(new InputProgram(sudokuEncoding));
 
-        handler.startAsync(this);
+        Callback callback = new MyCallback();
+        handler.startAsync(callback);
 
         Button button=(Button) findViewById(R.id.button);
         button.setEnabled(false);
-    }
-
-    @Override
-    public void callback(final Output o) {
-        if(!(o instanceof AnswerSets))return;
-        AnswerSets answerSets=(AnswerSets)o;
-        if(answerSets.getAnswersets().size()==0)return;
-        AnswerSet as = answerSets.getAnswersets().get(0);
-            try {
-                for(Object obj:as.getAtoms()) {
-                    Cell cell = (Cell) obj;
-                    sudokuMatrix[cell.getRow()][cell.getColumn()]=cell.getValue();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-        printSudokuMatrix();
     }
 
     private void printSudokuMatrix() {
