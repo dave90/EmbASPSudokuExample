@@ -22,7 +22,6 @@ import it.unical.mat.embasp.specializations.dlv.android.DLVAndroidService;
 public class MainActivity extends AppCompatActivity {
 
     public final int N=9;
-    private Handler handler;
     private String encodingResource="sudoku";
     private int [][] sudokuMatrix =     {{1,0,0,0,0,7,0,9,0},
                                         {0,3,0,0,2,0,0,0,8},
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
                                         {3,0,0,0,0,0,0,1,0},
                                         {0,4,1,0,0,0,0,0,7},
                                         {0,0,7,0,0,0,3,0,0}};
+    private Handler handler;
 
     private class MyCallback implements Callback {
         @Override
