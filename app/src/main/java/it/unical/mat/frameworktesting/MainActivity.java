@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            printSudokuMatrix();
+            displaySolution();
         }
     }
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         handler = new AndroidHandler(getApplicationContext(), DLVAndroidService.class);
-        printSudokuMatrix();
+        displaySolution();
     }
 
     private String getEncodingFromResources(){
@@ -78,9 +78,9 @@ public class MainActivity extends AppCompatActivity {
         }
         return builder.toString();
     }
-
-    public void onClick(final View view){
-        InputProgram inputProgram=new InputProgram();
+	
+	public void startReasoning(){
+		InputProgram inputProgram=new InputProgram();
         for ( int i = 0; i < N; i++)
             for ( int j = 0; j < N; j++)
                 try {
@@ -98,12 +98,16 @@ public class MainActivity extends AppCompatActivity {
 
         Callback callback = new MyCallback();
         handler.startAsync(callback);
+	}
 
-        Button button=(Button) findViewById(R.id.button);
+    public void onClick(final View view){
+		Button button=(Button) findViewById(R.id.button);
         button.setEnabled(false);
+		startReasoning();
+
     }
 
-    private void printSudokuMatrix() {
+    private void displaySolution() {
         String out="";
         for ( int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
