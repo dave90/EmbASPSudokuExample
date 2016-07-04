@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         return builder.toString();
     }
 	
-	public void startReasoning(){
-		InputProgram inputProgram=new InputProgram();
+    public void startReasoning(){
+	InputProgram inputProgram=new ASPInputProgram();
         for ( int i = 0; i < N; i++)
             for ( int j = 0; j < N; j++)
                 try {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         Callback callback = new MyCallback();
         handler.startAsync(callback);
-	}
+     }
 
     public void onClick(final View view){
 		Button button=(Button) findViewById(R.id.button);
